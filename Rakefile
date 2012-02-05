@@ -88,3 +88,26 @@ task :check_version do
     exit
   end
 end
+
+begin
+  require"jeweler"
+  Jeweler::Tasks.new do |gemspec|
+    gemspec.name        = GEM_NAME
+    gemspec.summary     = DESCRIPTION
+    gemspec.email       = EMAIL
+    gemspec.homepage    = HOMEPATH
+    gemspec.description = DESCRIPTION
+    gemspec.authors     = [AUTHOR]
+  end
+
+  namespace :version do
+    task :write => :setup_version
+    task :setup_version do
+      ENV["MAJOR"] = SkypeMac::VERSION::MAJOR.to_s
+      ENV["MINOR"] = SkypeMac::VERSION::MINOR.to_s
+      ENV["PATCH"] = SkypeMac::VERSION::TINY.to_s
+    end
+  end
+rescue LoadError
+  puts "Jeweler not available. Try running `bundle install`"
+end
